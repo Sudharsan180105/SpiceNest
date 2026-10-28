@@ -1,0 +1,10 @@
+chicken-dum-biryani.jpg
+mutton-dum-biryani.jpg
+butter-naan.jpg
+grilled-chicken-steak.jpg
+paneer-butter-masala.jpg
+veg-dum-biryani.jpg
+egg-biryani.jpg
+prawn-biryani.jpg
+chicken-65.jpg
+chicken-tikka.jpg
