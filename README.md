@@ -1,127 +1,266 @@
-# SpiceNest
+# SpiceNest — Restaurant Management System
 
-**Tagline:** Taste Lives Here
+**Tagline: Taste Lives Here**
 
-SpiceNest is a restaurant web application designed to provide customers with a convenient food-ordering experience and administrators with tools to manage restaurant operations.
+SpiceNest is a full-stack restaurant management and online food-ordering application designed to provide customers with a convenient dining experience while giving administrators the tools to manage restaurant operations efficiently.
 
-## Project Status
+The application combines a customer-facing restaurant website with an administrative portal for managing food items, categories, orders, customers, inventory, and reports.
 
-Current milestone: M02.3 — Project Structure and Foundation
+## Project Overview
 
-- [x] Requirements baseline approved
-- [x] Development environment inspected
-- [x] Project folder structure created and verified
-- [x] Root `.gitignore` created
-- [ ] Frontend application implementation
-- [ ] Backend API implementation
-- [ ] Oracle application schema
-- [ ] Authentication and authorization
-- [ ] Ordering and payment workflows
-- [ ] Testing and deployment
+SpiceNest brings restaurant ordering and administration together in one application. Customers can explore the menu, authenticate, place orders, review order details, track order status, and access their order history. Administrators can manage the restaurant catalog, monitor orders, manage customers, and view operational information.
 
-The project is under development. Items are marked complete only when their implementation and verification are confirmed.
+## Features
+
+### Customer Website
+
+- Restaurant homepage with branding and food imagery
+- Food menu with categories and individual dish details
+- Food catalog containing 50 dishes
+- Customer registration and login
+- Firebase Authentication integration
+- Google sign-in support, where configured
+- Shopping cart and checkout workflow
+- Order placement and order details
+- My Orders page with order tracking
+- Order History for delivered and paid orders
+- Customer profile and account-related functionality
+- Contact and enquiry submission
+- Customer access to administrator replies to enquiries
+
+### Admin Portal
+
+- Administrative dashboard
+- Food and menu management
+- Category management
+- Order management and status updates
+- Order history
+- Customer management
+- Inventory and reporting features
+- Dashboard analytics
+- Administrative settings
+
+*Feature availability and behavior depend on the current implementation and configuration.*
 
 ## Technology Stack
 
-| Component | Planned technology |
+| Component | Technology |
 |---|---|
 | Frontend | React, JavaScript, HTML, CSS |
-| Frontend development server | Vite |
-| Backend | Node.js, Express |
-| Database | Oracle Database Free |
-| Oracle driver | `node-oracledb` |
-| Code editor | Visual Studio Code |
-| Version control | Git |
+| Frontend tooling | Vite |
+| Backend | Node.js, Express.js |
+| Database | Oracle Database |
+| Oracle connectivity | `node-oracledb` |
+| Authentication | Firebase Authentication |
+| API architecture | REST API |
+| API version prefix | `/api/v1` |
+| Development tools | Visual Studio Code, Git, npm |
+| Version control | Git and GitHub |
 
-## Local Development Architecture
+## Application Architecture
 
-The planned local development setup uses:
+SpiceNest uses a frontend-backend-database architecture.
 
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:5000`
-- API prefix: `/api/v1`
-- Oracle service: `FREEPDB1`, on port `1521`
+```text
+Customer / Administrator
+          |
+          v
+React Frontend (Vite)
+          |
+          v
+Node.js + Express Backend
+          |
+          +---- Firebase Authentication
+          |
+          v
+Oracle Database
+          |
+          v
+Food Catalog, Customers,
+Orders and Related Records
+```
 
-Vite will serve the frontend and proxy API requests to Express. Express will handle application logic and communicate with Oracle.
-
-These are planned settings; the application has not yet been implemented.
+The React frontend provides the user interface. The Express backend handles API requests and application logic, validates access, and communicates with Oracle Database. Firebase Authentication is used to authenticate supported customer and administrator flows, with authorization enforced by the application backend.
 
 ## Project Structure
 
 ```text
 SpiceNest/
 ├── frontend/
-│   ├── public/images/
-│   │   ├── logo/
-│   │   ├── backgrounds/
-│   │   └── dishes/
-│   └── src/
-│       ├── components/
-│       ├── layouts/
-│       ├── pages/
-│       │   ├── auth/
-│       │   ├── customer/
-│       │   └── admin/
-│       ├── services/
-│       ├── hooks/
-│       ├── context/
-│       └── styles/
+│   ├── public/
+│   │   ├── images/
+│   │   │   ├── backgrounds/
+│   │   │   ├── dishes/
+│   │   │   └── logo/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   ├── AdminPortal.jsx
+│   │   ├── AdminPortal.css
+│   │   ├── firebase.js
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
 ├── backend/
-│   ├── config/
 │   ├── controllers/
-│   ├── middleware/
 │   ├── routes/
-│   ├── services/
-│   ├── validators/
-│   ├── database/
-│   └── tests/
+│   ├── adminAuth.js
+│   ├── db.js
+│   ├── firebaseAuth.js
+│   ├── index.js
+│   ├── package.json
+│   └── .env.example
 ├── database/
-│   ├── migrations/
-│   ├── seed/
-│   └── documentation/
-├── docs/
-│   ├── architecture/
-│   ├── api/
-│   └── deployment/
+│   └── migrations/
+│       └── 001_core_schema.sql
 ├── .gitignore
-└── README.md
+├── README.md
+└── ...
 ```
 
-## Security Guidelines
+## Local Development Setup
 
-- Keep real credentials and secrets in local environment files.
-- Never commit real `.env` files or passwords to Git.
-- Never expose Oracle credentials in frontend code.
-- Use a dedicated, least-privilege Oracle application account instead of `SYSTEM`.
-- Enforce customer and administrator permissions on the backend.
-- Verify payment status on the server before treating an order as paid.
+### Prerequisites
 
-## Catalog Requirements
+Install and configure:
 
-SpiceNest must preserve the original 50 dish names and their matching images. The image directory has been located at:
+- Node.js and npm
+- Oracle Database with an accessible application service
+- Git
+- A Firebase project configured for the authentication methods used by the application
 
-`C:\Users\GOD\Downloads\dishes`
+### 1. Clone the repository
 
-The images still need visual verification and mapping to the final Oracle catalog.
+```bash
+git clone https://github.com/Sudharsan180105/SpiceNest.git
+cd SpiceNest
+```
 
-## Development Principles
+### 2. Install frontend dependencies
 
-1. Implement and verify one step at a time.
-2. Preserve the approved requirements and existing project assets.
-3. Test each component before integrating dependent features.
-4. Use free tools and services where practical.
-5. Do not activate paid services without explicit approval.
-6. Exclude secrets, generated files, and local database backups from GitHub.
+```bash
+cd frontend
+npm install
+```
 
-## Documentation
+### 3. Install backend dependencies
 
-Additional documentation will be added as implementation progresses:
+Open another terminal from the project root:
 
-- `docs/architecture/` — System architecture
-- `docs/api/` — API contracts and endpoint documentation
-- `docs/deployment/` — Deployment instructions and release checklist
-- `database/documentation/` — Oracle schema and database procedures
+```bash
+cd backend
+npm install
+```
 
-## Current Setup
+### 4. Configure backend environment variables
 
-The local workspace, Node.js, npm, Git, and the Oracle SQL Developer connection have been checked. The SpiceNest application, dedicated Oracle application schema, and API endpoints have not yet been created.
+Create `backend/.env` using `backend/.env.example` as a reference.
+
+Configure the values required by your environment, including:
+
+```env
+PORT=5000
+NODE_ENV=development
+FRONTEND_ORIGIN=http://localhost:5173
+
+ORACLE_USER=YOUR_SPICENEST_DB_USER
+ORACLE_PASSWORD=YOUR_DATABASE_PASSWORD
+ORACLE_CONNECT_STRING=localhost:1521/FREEPDB1
+```
+
+Replace the example values with your actual local configuration. Do not commit `backend/.env` to GitHub.
+
+### 5. Configure Firebase
+
+Configure the Firebase project and authentication settings required by the frontend and backend.
+
+Keep Firebase Admin service-account credentials and other private keys outside the public repository. Frontend Firebase configuration must not contain server-side credentials.
+
+### 6. Configure Oracle Database
+
+Ensure Oracle Database is running and that the configured application account has the required permissions.
+
+Review the SQL migration files under `database/migrations/` and apply the appropriate schema setup to your database before running the application. Back up existing data before making schema changes.
+
+### 7. Start the backend
+
+From the `backend` directory:
+
+```bash
+node index.js
+```
+
+The configured local backend runs at:
+
+`http://localhost:5000`
+
+Health-check endpoint:
+
+`http://localhost:5000/api/v1/health`
+
+### 8. Start the frontend
+
+From the `frontend` directory:
+
+```bash
+npm run dev
+```
+
+The Vite development server normally runs at:
+
+`http://localhost:5173`
+
+Use the address printed by Vite if it selects a different port.
+
+## Database
+
+Oracle Database stores the application's persistent restaurant data, including food catalog and order-related records.
+
+Database migration scripts are maintained in:
+
+`database/migrations/`
+
+Use the SQL scripts and the actual application schema as the source of truth for table definitions. Configure the database connection through environment variables instead of hardcoding credentials.
+
+## Security
+
+- Keep database credentials and private keys out of source control.
+- Use a dedicated Oracle application account with least-privilege permissions.
+- Verify Firebase ID tokens on protected backend endpoints.
+- Enforce customer ownership and administrator permissions on the server.
+- Validate user input and API requests.
+- Verify payment status on the server before marking an order as paid.
+- Never store passwords or sensitive authentication tokens in public files.
+- Configure Firebase API-key restrictions and appropriate Firebase security rules.
+- Keep `.env`, service-account files, database backups, and other sensitive artifacts out of Git history.
+
+## Current Repository
+
+GitHub repository:
+
+https://github.com/Sudharsan180105/SpiceNest
+
+The repository contains the frontend, backend, Oracle migration script, food images, and project configuration files.
+
+## Future Improvements
+
+Potential improvements include:
+
+- Production deployment of the frontend and backend
+- Automated testing and continuous integration
+- Expanded API and database documentation
+- Production logging, monitoring, and error handling
+- Improved accessibility and responsive design
+- Additional payment-provider integration, if required
+- Automated database backup and recovery procedures
+
+## Author
+
+**SUDHARSAN L S**
+
+Full-Stack Development Project
+
+**SpiceNest — Taste Lives Here**
